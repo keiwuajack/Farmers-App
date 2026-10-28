@@ -1,0 +1,196 @@
+/* Cohesive visual layer shared by the landing page and signed-in workspace. */
+:root {
+  --bg: #f5f8f4;
+  --surface: #ffffff;
+  --surface-2: #edf4ee;
+  --text: #183326;
+  --muted: #65786c;
+  --border: #dce7de;
+  --brand: #167a49;
+  --brand-2: #0d5838;
+  --accent: #d9edaa;
+  --shadow: 0 12px 32px rgba(21, 60, 37, .075);
+  --shadow-raised: 0 20px 48px rgba(21, 60, 37, .14);
+  --radius: 20px;
+  --focus-ring: 0 0 0 4px rgba(22, 122, 73, .18);
+}
+
+[data-theme="dark"] {
+  --bg: #0d1712;
+  --surface: #14231b;
+  --surface-2: #1a2d22;
+  --text: #edf6ee;
+  --muted: #a1b5a7;
+  --border: #2a4032;
+  --brand: #75c895;
+  --brand-2: #a8dfbb;
+  --accent: #d9edaa;
+  --shadow: 0 12px 32px rgba(0, 0, 0, .24);
+  --shadow-raised: 0 22px 52px rgba(0, 0, 0, .36);
+  --focus-ring: 0 0 0 4px rgba(117, 200, 149, .2);
+}
+
+html { scroll-padding-top: 100px; }
+body {
+  min-width: 320px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+  letter-spacing: -.008em;
+}
+
+::selection { background: #cde8d3; color: #123d29; }
+:focus-visible { outline: 0; box-shadow: var(--focus-ring); }
+
+.container { width: min(100% - 2.5rem, 1280px); padding-inline: 0; }
+.navbar {
+  border-color: color-mix(in srgb, var(--border) 82%, transparent) !important;
+  background: color-mix(in srgb, var(--surface) 90%, transparent) !important;
+  box-shadow: 0 4px 24px rgba(21, 60, 37, .055) !important;
+}
+.nav-brand h1 { letter-spacing: -.045em; }
+.nav-link { border-radius: 10px; transition: color .18s ease, background .18s ease; }
+.nav-auth .btn-primary, .nav-user > .btn-outline {
+  border: 1px solid var(--brand) !important;
+  background: var(--brand) !important;
+  color: #fff !important;
+}
+.nav-user > .nav-logout {
+  border: 1px solid var(--border) !important;
+  background: transparent !important;
+  color: var(--text) !important;
+  box-shadow: none !important;
+}
+.nav-user > .nav-logout:hover {
+  border-color: var(--brand) !important;
+  background: var(--surface-2) !important;
+}
+[data-theme="dark"] .nav-auth .btn-primary,
+[data-theme="dark"] .nav-user > .btn-outline { color: #102319 !important; }
+
+.hero {
+  background:
+    radial-gradient(ellipse at 78% 20%, rgba(197, 226, 147, .2), transparent 28%),
+    radial-gradient(ellipse at 8% 94%, rgba(246, 204, 111, .13), transparent 30%),
+    linear-gradient(122deg, #103b2a 0%, #15583b 58%, #1d6947 100%);
+}
+.hero-visual { filter: saturate(.96); }
+.hero-note { backdrop-filter: blur(10px); }
+
+.section { padding-block: clamp(3.2rem, 6vw, 5.2rem); }
+.section-header { gap: 1.25rem; }
+.section-header h2,
+.section > .container > h2,
+.vet-directory-intro h2 {
+  color: var(--text) !important;
+  font-size: clamp(1.8rem, 3vw, 2.5rem) !important;
+  font-weight: 780;
+  letter-spacing: -.05em;
+  line-height: 1.12;
+}
+.section-header p,
+.section > .container > p { color: var(--muted); }
+.section-kicker, .opportunities-heading .section-kicker { color: var(--brand) !important; }
+#marketplace { background: color-mix(in srgb, var(--surface-2) 58%, var(--bg)) !important; }
+#opportunities, #vets { background: var(--bg) !important; }
+#hub, #feed, #weather, #farm-finances { background: var(--surface-2) !important; }
+
+.btn {
+  min-height: 44px;
+  padding: .7rem 1.05rem;
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+}
+.btn-primary {
+  border: 1px solid var(--brand) !important;
+  background: var(--brand) !important;
+  color: #fff !important;
+}
+[data-theme="dark"] .btn-primary { color: #102319 !important; }
+.btn-primary:hover { filter: brightness(1.07); box-shadow: 0 9px 22px rgba(22, 122, 73, .2); }
+.btn-outline {
+  border: 1px solid var(--border) !important;
+  background: var(--surface) !important;
+  color: var(--brand-2) !important;
+}
+.btn-outline:hover { border-color: var(--brand) !important; background: var(--surface-2) !important; }
+.btn:active { transform: translateY(0); }
+
+.input, input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]),
+select, textarea {
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  box-shadow: none;
+}
+input::placeholder, textarea::placeholder { color: var(--muted) !important; opacity: .85; }
+input:focus, select:focus, textarea:focus { border-color: var(--brand) !important; box-shadow: var(--focus-ring) !important; outline: 0; }
+
+.product-card, .opportunity-card, .hub-card, .post-card, .vet-card,
+.finance-card, .order-card, .shop-empty-state, .feedback-form {
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  background: var(--surface) !important;
+  color: var(--text);
+  box-shadow: var(--shadow) !important;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.product-card:hover, .opportunity-card:hover, .vet-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--brand) 34%, var(--border)) !important;
+  box-shadow: var(--shadow-raised) !important;
+}
+.product-image { overflow: hidden; border-radius: var(--radius) var(--radius) 0 0; }
+.product-image img { transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+.product-card:hover .product-image img { transform: scale(1.045); }
+.opportunity-card h3, .product-card h3, .hub-card h3 { color: var(--text) !important; letter-spacing: -.025em; }
+.opportunity-filter {
+  border-color: var(--border) !important;
+  background: var(--surface) !important;
+  color: var(--muted) !important;
+  transition: transform .16s ease, background .16s ease, color .16s ease, border-color .16s ease;
+}
+.opportunity-filter:hover, .opportunity-filter.active {
+  border-color: color-mix(in srgb, var(--brand) 46%, var(--border)) !important;
+  background: color-mix(in srgb, var(--brand) 13%, var(--surface)) !important;
+  color: var(--brand-2) !important;
+}
+.farmer-benefit:focus-visible, .opportunity-filter:focus-visible { box-shadow: var(--focus-ring); }
+.feedback-form { padding: clamp(1rem, 3vw, 1.5rem); }
+
+.marketplace-filters, .weather-search, .opportunity-filters {
+  padding: .9rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.weather-search { max-width: 900px; gap: .65rem; }
+.weather-search .btn { min-width: 0; }
+#weatherStatus { min-height: 1.5rem; margin: .75rem 0 1rem; color: var(--muted); font-size: .88rem; }
+.weather-current, #weatherContainer > div:last-child { border-radius: 24px; }
+
+.modal-content, .notifications-dropdown, .cart-dropdown {
+  border: 1px solid var(--border) !important;
+  border-radius: 22px !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow-raised) !important;
+}
+.site-footer { background: #123d2b; color: #e8f1e8; }
+
+@media (max-width: 760px) {
+  .container { width: min(100% - 1.5rem, 1280px); }
+  .section { padding-block: 3rem; }
+  .section-header { align-items: flex-start; }
+  .marketplace-filters, .opportunity-filters { padding: .7rem; }
+  .weather-search { padding: .7rem; }
+  .weather-search .input, .weather-search .btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

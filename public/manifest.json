@@ -1,0 +1,13 @@
+{
+  "name": "Farmers App Kenya",
+  "short_name": "FarmersApp",
+  "description": "Trade produce, animals and land, find farm jobs, and get market and farming know-how.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4fbf6",
+  "theme_color": "#16a34a",
+  "icons": [
+    { "src": "/images/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "categories": ["business", "productivity", "lifestyle"]
+}

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Farmers App</title>
+    <link rel="stylesheet" href="css/premium-styles.css">
+    <link rel="stylesheet" href="css/app-messages.css?v=1">
+    <link rel="stylesheet" href="css/admin.css?v=1">
+    <script src="js/app-messages.js?v=1"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container admin-topbar">
+            <div class="nav-brand">
+                <a class="admin-brand" href="/" aria-label="Farmers App home">
+                    <span class="admin-brand-icon" aria-hidden="true">🌾</span>
+                    <span><strong>Farmers App</strong><small>ADMIN CONSOLE</small></span>
+                </a>
+            </div>
+            <div class="admin-nav-actions" id="adminNav" style="display: none;">
+                <span class="admin-status"><span></span> System overview</span>
+                <span class="admin-user-chip"><span class="admin-avatar">A</span><span class="user-name" id="adminName"></span></span>
+                <button class="admin-logout" onclick="adminLogout()"><span aria-hidden="true">↗</span> Sign out</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <div id="loginSection" class="admin-container">
+        <div class="admin-login-layout">
+            <div class="login-story">
+                <span class="login-kicker"><span></span> FARMERS APP CONTROL CENTRE</span>
+                <h1>Good to see you.<br><span>Let’s grow smarter.</span></h1>
+                <p>Sign in to monitor your community, keep an eye on platform activity, and hear directly from farmers.</p>
+                <div class="login-trust"><span>🔒</span> Secure administrator access</div>
+                <div class="login-decoration" aria-hidden="true"><span>🌿</span><span>🌱</span><span>✳</span></div>
+            </div>
+            <div class="admin-login-card">
+                <div class="login-card-icon" aria-hidden="true">↗</div>
+                <span class="login-card-eyebrow">ADMIN ACCESS</span>
+                <h2>Welcome back</h2>
+                <p>Enter your administrator credentials to continue.</p>
+                <form onsubmit="adminLogin(event)" autocomplete="on">
+                    <div class="form-group">
+                        <label for="adminEmail">Email address</label>
+                        <input type="email" id="adminEmail" class="input" autocomplete="username" placeholder="Admin Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <input type="password" id="adminPassword" class="input" autocomplete="current-password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="admin-login-submit">Sign in to dashboard <span aria-hidden="true">→</span></button>
+                </form>
+                <div class="login-card-footer"><span aria-hidden="true">🛡️</span> Your session is protected</div>
+            </div>
+        </div>
+        <p class="admin-login-footnote">Farmers App <span>·</span> Built for a stronger farming community</p>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboardSection" class="admin-container" style="display: none;">
+        <header class="dashboard-heading">
+            <div>
+                <span class="dashboard-eyebrow"><span></span> FARMERS APP / OVERVIEW</span>
+                <h1>Dashboard <span>Overview</span></h1>
+                <p>Your community at a glance. Here’s what’s happening today.</p>
+            </div>
+            <div class="dashboard-date"><span aria-hidden="true">◷</span><span id="dashboardDate"></span></div>
+        </header>
+        
+        <div class="stats-grid" id="statsGrid">
+            <!-- Stats will be loaded here -->
+        </div>
+
+        <div class="admin-table feedback-table">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <span class="panel-icon feedback-icon" aria-hidden="true">✳</span>
+                    <div>
+                        <span class="panel-eyebrow">COMMUNITY VOICE</span>
+                    <h2 style="margin-bottom: .25rem;">Community feedback</h2>
+                        <p id="feedbackCount">Loading responses…</p>
+                    </div>
+                </div>
+                <button id="exportFeedbackBtn" class="admin-export-btn" type="button" onclick="exportFeedbackCsv()" disabled><span aria-hidden="true">↓</span> Download CSV</button>
+            </div>
+            <div class="admin-table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Submitted</th>
+                        <th>Role</th>
+                        <th>County</th>
+                        <th>Ease (1–5)</th>
+                        <th>Main use</th>
+                        <th>Suggestion</th>
+                    </tr>
+                </thead>
+                <tbody id="feedbackTable">
+                    <tr><td colspan="6">Loading feedback…</td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <div class="admin-table">
+            <div class="panel-heading users-heading">
+                <div class="panel-title">
+                    <span class="panel-icon users-icon" aria-hidden="true">♧</span>
+                    <div>
+                        <span class="panel-eyebrow">PEOPLE &amp; PERMISSIONS</span>
+                        <h2>Community members</h2>
+                        <p>Manage the people growing this community.</p>
+                    </div>
+                </div>
+                <div class="filters">
+                    <select id="roleFilter" class="input" onchange="loadUsers()" aria-label="Filter users by role">
+                        <option value="">All Roles</option>
+                        <option value="farmer">Farmers</option>
+                        <option value="veterinarian">Veterinarians</option>
+                    </select>
+                    <label class="admin-search"><span aria-hidden="true">⌕</span><input type="search" id="searchUsers" placeholder="Search members..." onkeyup="searchUsers()" aria-label="Search users"></label>
+                </div>
+            </div>
+            <div class="admin-table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Location</th>
+                        <th>Joined</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTable">
+                    <!-- Users will be loaded here -->
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = '/api';
+        let adminToken = null;
+        let allUsers = [];
+        let allFeedback = [];
+
+        const feedbackLabels = {
+            role: {
+                farmer: 'Farmer',
+                buyer: 'Buyer',
+                'farm-worker': 'Farm worker / job seeker',
+                veterinarian: 'Veterinarian',
+                other: 'Other'
+            },
+            useCase: {
+                'sell-produce': 'Selling farm produce',
+                'buy-products': 'Finding or buying products',
+                'find-work': 'Finding work or opportunities',
+                'get-advice': 'Farming or veterinary support',
+                other: 'Something else'
+            }
+        };
+
+        // Check if admin is logged in
+        window.onload = () => {
+            document.getElementById('dashboardDate').textContent = new Intl.DateTimeFormat('en-KE', {
+                weekday: 'short',
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            }).format(new Date());
+            adminToken = localStorage.getItem('adminToken');
+            if (adminToken) {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
+                document.getElementById('adminNav').style.display = 'flex';
+                
+                const adminData = JSON.parse(localStorage.getItem('adminData'));
+                document.getElementById('adminName').textContent = adminData.name;
+                
+                loadDashboard();
+                loadUsers();
+                loadFeedback();
+            }
+        };
+
+        // Admin login
+        async function adminLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+
+            try {
+                const response = await fetch(`${API_URL}/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    adminToken = result.token;
+                    localStorage.setItem('adminToken', adminToken);
+                    localStorage.setItem('adminData', JSON.stringify(result.admin));
+                    
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('dashboardSection').style.display = 'block';
+                    document.getElementById('adminNav').style.display = 'flex';
+                    document.getElementById('adminName').textContent = result.admin.name;
+                    
+                    loadDashboard();
+                    loadUsers();
+                    loadFeedback();
+                } else {
+                    showAppMessage(result.message, { type: 'error' });
+                }
+            } catch (error) {
+                showAppMessage('Login failed: ' + error.message, { type: 'error' });
+            }
+        }
+
+        // Load dashboard stats
+        async function loadDashboard() {
+            try {
+                const response = await fetch(`${API_URL}/admin/dashboard/stats`, {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const stats = await response.json();
+
+                document.getElementById('statsGrid').innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-value">${stats.totalUsers}</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🌾</div>
+                        <div class="stat-value">${stats.totalFarmers}</div>
+                        <div class="stat-label">Farmers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🩺</div>
+                        <div class="stat-value">${stats.totalVets}</div>
+                        <div class="stat-label">Veterinarians</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-value">${stats.totalProducts}</div>
+                        <div class="stat-label">Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🛒</div>
+                        <div class="stat-value">${stats.totalOrders}</div>
+                        <div class="stat-label">Orders</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-value">${stats.totalPosts}</div>
+                        <div class="stat-label">Posts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-value">${stats.recentSignups}</div>
+                        <div class="stat-label">New Users (7 days)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value">KSH ${stats.totalRevenue.toLocaleString()}</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        // Load users
+        async function loadUsers() {
+            try {
+                const role = document.getElementById('roleFilter').value;
+                const url = role ? `${API_URL}/admin/users?role=${role}` : `${API_URL}/admin/users`;
+                
+                const response = await fetch(url, {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const data = await response.json();
+                allUsers = data.users;
+
+                displayUsers(allUsers);
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+
+        async function loadFeedback() {
+            const tbody = document.getElementById('feedbackTable');
+            const count = document.getElementById('feedbackCount');
+            const exportButton = document.getElementById('exportFeedbackBtn');
+            try {
+                const response = await fetch(`${API_URL}/admin/feedback`, {
+                    headers: { 'Authorization': 'Bearer ' + adminToken }
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.message || 'Could not load feedback.');
+
+                allFeedback = data.feedback;
+                count.textContent = `${allFeedback.length} response${allFeedback.length === 1 ? '' : 's'} (latest 1,000)`;
+                exportButton.disabled = allFeedback.length === 0;
+                tbody.replaceChildren();
+
+                if (allFeedback.length === 0) {
+                    const row = tbody.insertRow();
+                    const cell = row.insertCell();
+                    cell.colSpan = 6;
+                    cell.textContent = 'No feedback responses yet.';
+                    return;
+                }
+
+                allFeedback.forEach((item) => {
+                    const row = tbody.insertRow();
+                    const values = [
+                        new Date(item.createdAt).toLocaleString(),
+                        feedbackLabels.role[item.role] || 'Prefer not to say',
+                        item.county || '—',
+                        `${item.rating} / 5`,
+                        feedbackLabels.useCase[item.useCase] || item.useCase,
+                        item.message || '—'
+                    ];
+                    values.forEach((value, index) => {
+                        const cell = row.insertCell();
+                        cell.textContent = value;
+                        if (index === 5) cell.className = 'feedback-message';
+                    });
+                });
+            } catch (error) {
+                count.textContent = 'Feedback could not be loaded.';
+                const row = tbody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 6;
+                cell.textContent = error.message;
+                showAppMessage(error.message, { type: 'error' });
+            }
+        }
+
+        function exportFeedbackCsv() {
+            const columns = ['Submitted', 'Role', 'County', 'Ease rating', 'Main use', 'Suggestion'];
+            const rows = allFeedback.map((item) => [
+                new Date(item.createdAt).toISOString(),
+                feedbackLabels.role[item.role] || 'Prefer not to say',
+                item.county || '',
+                item.rating,
+                feedbackLabels.useCase[item.useCase] || item.useCase,
+                item.message || ''
+            ]);
+            const escapeCsvValue = (value) => {
+                const text = String(value);
+                const safeText = /^[\s]*[=+\-@]/.test(text) ? `'${text}` : text;
+                return `"${safeText.replace(/"/g, '""')}"`;
+            };
+            const csv = [columns, ...rows]
+                .map((row) => row.map(escapeCsvValue).join(','))
+                .join('\r\n');
+            const url = URL.createObjectURL(new Blob(['\uFEFF', csv], { type: 'text/csv;charset=utf-8' }));
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'farmers-app-feedback.csv';
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+
+        // Display users in table
+        function displayUsers(users) {
+            const tbody = document.getElementById('usersTable');
+            tbody.replaceChildren();
+            users.forEach(user => {
+                const row = tbody.insertRow();
+                [user.name, user.email].forEach(value => {
+                    const cell = row.insertCell();
+                    cell.textContent = value || '';
+                });
+
+                const roleCell = row.insertCell();
+                const role = document.createElement('span');
+                role.className = `user-role role-${user.role}`;
+                role.textContent = user.role || 'Unknown';
+                roleCell.appendChild(role);
+
+                const locationCell = row.insertCell();
+                locationCell.textContent = user.location || 'N/A';
+                const joinedCell = row.insertCell();
+                joinedCell.textContent = new Date(user.createdAt).toLocaleDateString();
+
+                const actionsCell = row.insertCell();
+                const viewButton = document.createElement('button');
+                viewButton.type = 'button';
+                viewButton.className = 'action-btn btn-view';
+                viewButton.dataset.userAction = 'view';
+                viewButton.dataset.userId = user._id;
+                viewButton.textContent = 'View';
+                const deleteButton = document.createElement('button');
+                deleteButton.type = 'button';
+                deleteButton.className = 'action-btn btn-delete';
+                deleteButton.dataset.userAction = 'delete';
+                deleteButton.dataset.userId = user._id;
+                deleteButton.textContent = 'Delete';
+                actionsCell.append(viewButton, deleteButton);
+            });
+
+            tbody.onclick = event => {
+                const button = event.target.closest('button[data-user-action]');
+                if (!button) return;
+                const user = allUsers.find(item => String(item._id) === button.dataset.userId);
+                if (!user) return;
+                if (button.dataset.userAction === 'view') {
+                    viewUserActivity(user._id);
+                } else if (button.dataset.userAction === 'delete') {
+                    deleteUser(user._id, user.name);
+                }
+            };
+        }
+
+        // Search users
+        function searchUsers() {
+            const search = document.getElementById('searchUsers').value.toLowerCase();
+            const filtered = allUsers.filter(user => 
+                user.name.toLowerCase().includes(search) ||
+                user.email.toLowerCase().includes(search) ||
+                (user.location && user.location.toLowerCase().includes(search))
+            );
+            displayUsers(filtered);
+        }
+
+        // View user activity
+        async function viewUserActivity(userId) {
+            try {
+                const response = await fetch(`${API_URL}/admin/users/${userId}/activity`, {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const activity = await response.json();
+
+                showAppMessage(`User Activity:\n\nPosts: ${activity.posts.length}\nProducts: ${activity.products.length}\nOrders: ${activity.orders.length}`, {
+                    type: 'info',
+                    duration: 10000
+                });
+            } catch (error) {
+                showAppMessage('Error loading user activity', { type: 'error' });
+            }
+        }
+
+        // Delete user
+        async function deleteUser(userId, userName) {
+            if (!await showAppConfirm(`Are you sure you want to delete ${userName}? This will also delete all their products and posts.`, {
+                title: 'Delete user',
+                submitText: 'Delete'
+            })) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/admin/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+
+                if (response.ok) {
+                    showAppMessage('User deleted successfully', { type: 'success' });
+                    loadUsers();
+                    loadDashboard();
+                }
+            } catch (error) {
+                showAppMessage('Error deleting user', { type: 'error' });
+            }
+        }
+
+        // Admin logout
+        function adminLogout() {
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminData');
+            location.reload();
+        }
+    </script>
+</body>
+</html>
